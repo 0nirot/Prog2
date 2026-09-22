@@ -1,0 +1,23 @@
+# Visual Studio
+.vs/
+out/
+*.vcxproj
+*.vcxproj.user
+*.sln
+
+# CMake
+CMakeUserPresets.json
+
+# Build directories
+build/
+Debug/
+Release/
+
+# IDE
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

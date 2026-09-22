@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemArmor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemEquippable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemSword.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemTrinket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemWeapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\MapGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Prog2Prüfung.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\TileBlocked.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\TileExit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\TileStart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\TileTraversable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\TileTreasure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Equipmentcontainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Inventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemArmor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemEquippable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemSword.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemTrinket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\ItemWeapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\MapGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Movement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Prog2Prüfung.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\Tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\TileBlocked.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\TileExit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\TileStart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\TileTraversable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\TileTreasure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Noël\source\repos\Prog1 Portfolio\Prog2Prüfung\Prog2Prüfung\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{B987D810-7A52-30B6-AA6E-521BAD28BC7D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{1DF627E1-AA36-3EB1-A972-1A3A46166AF9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
