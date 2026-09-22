@@ -5,10 +5,32 @@ project(Prog2Prüfung)
 # projektspezifische Logik hier.
 #
 
+# Include FetchContent für raylib
+include(FetchContent)
+
+# Laden raylib herunter
+FetchContent_Declare(raylib
+  GIT_REPOSITORY https://github.com/raysan5/raylib.git
+  GIT_TAG 4.5.0
+)
+
+# Raylib-Optionen für minimalen Build
+set(RAYLIB_VERSION 4.5.0)
+set(BUILD_EXAMPLES OFF CACHE BOOL "Build the examples" FORCE)
+set(BUILD_GAMES OFF CACHE BOOL "Build the games" FORCE)
+set(BUILD_TESTING OFF CACHE BOOL "Build testing" FORCE)
+
+# Stille Ausgabe beim Download
+message(STATUS "Raylib wird heruntergeladen und kompiliert...")
+
+FetchContent_MakeAvailable(raylib)
+
 # Fügen Sie der ausführbaren Datei dieses Projekts eine Quelle hinzu.
 file(GLOB SOURCES "*.cpp" "*.h")
 add_executable (Prog2Pruefung ${SOURCES})
 
+# Link raylib
+target_link_libraries(Prog2Pruefung PRIVATE raylib)
 # Force CMake to regenerate
 set_property(DIRECTORY PROPERTY CMAKE_CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR})
 
