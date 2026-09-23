@@ -5,7 +5,6 @@ class ItemBase
 {
 public:
 	ItemBase();
-	explicit ItemBase(const std::string& name, const std::string& description, float weight, int value);
 	virtual ~ItemBase();
 
 	// Getter

@@ -52,15 +52,26 @@ endif()
 set(SOURCES
     Prog2Prüfung.cpp
     Character.cpp
-    ItemArmor.cpp
-    ItemBase.cpp
-    ItemEquippable.cpp
-    ItemSword.cpp
-    ItemTrinket.cpp
-    ItemWeapon.cpp
+    "Items/Apple.cpp"
+    "Items/Axe.cpp"
+    "Items/Coin.cpp"
+    "Items/EmeraldRing.cpp"
+    "Items/IronArmor.cpp"
+    "Items/ItemArmor.cpp"
+    "Items/ItemBase.cpp"
+    "Items/ItemEquippable.cpp"
+    "Items/ItemSword.cpp"
+    "Items/ItemTrinket.cpp"
+    "Items/ItemWeapon.cpp"
+    "Items/Stick.cpp"
+    "Items/Sword.cpp"
+    "Items/Torch.cpp"
+    "Items/WoodenAmulet.cpp"
+    LootTable.cpp
     Map.cpp
     MapGenerator.cpp
     PlayerCharacter.cpp
+    PlotArmor.cpp
     Renderer.cpp
     Tile.cpp
     TileBlocked.cpp
@@ -76,13 +87,13 @@ set(HEADERS
     Character.h
     Equipmentcontainer.h
     Inventory.h
-    ItemArmor.h
-    ItemBase.h
+    "Items/ItemArmor.h"
+    "Items/ItemBase.h"
     ItemContainer.h
-    ItemEquippable.h
-    ItemSword.h
-    ItemTrinket.h
-    ItemWeapon.h
+    "Items/ItemEquippable.h"
+    "Items/ItemSword.h"
+    "Items/ItemTrinket.h"
+    "Items/ItemWeapon.h"
     Map.h
     MapGenerator.h
     Movement.h
@@ -97,7 +108,7 @@ set(HEADERS
     utils.h
 )
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} "LootTable.h" "LootTable.cpp")
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 

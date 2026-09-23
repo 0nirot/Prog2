@@ -1,6 +1,7 @@
 #pragma once
 #include "Map.h"
 #include <vector>
+#include "LootTable.h"
 
 class MapGenerator
 {
@@ -9,6 +10,7 @@ public:
 	~MapGenerator();
 
 	void generateMap(std::shared_ptr<Map> map);
+	void setLootTable(std::shared_ptr<LootTable> newlootTable);
 
 private:
 	void generatePath(std::shared_ptr<Map> map);
@@ -20,4 +22,5 @@ private:
 	int endX;
 	int endY;
 	std::vector<std::shared_ptr<Tile>> pathTiles;
+	std::shared_ptr<LootTable> lootTable;
 };

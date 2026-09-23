@@ -4,8 +4,8 @@
 #include <type_traits>
 #include <vector>
 
-#include "ItemBase.h"
-#include "ItemEquippable.h"
+#include "Items\ItemBase.h"
+#include "Items\ItemEquippable.h"
 #include "ItemContainer.h"
 #include "EquipmentContainer.h"
 

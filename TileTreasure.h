@@ -1,6 +1,7 @@
 #pragma once
 #include "Tile.h"
-#include "ItemBase.h"
+#include <memory>
+#include "Items\ItemBase.h"
 
 class TileTreasure : public Tile
 {
@@ -10,8 +11,12 @@ public:
 
 	bool isTraversable() const override;
 	Color getTileVisualization() const override;
+	void traverse() override;
+
+	void setLoot(std::unique_ptr<ItemBase> item);
+	std::shared_ptr<ItemBase> getLoot() const;
 
 private:
-	//std::unique_ptr<ItemBase> loot;
+	std::unique_ptr<ItemBase> loot;
 
 };

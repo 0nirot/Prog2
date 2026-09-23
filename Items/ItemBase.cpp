@@ -5,11 +5,6 @@ ItemBase::ItemBase()
 {
 }
 
-ItemBase::ItemBase(const std::string& name, const std::string& description, float weight, int value)
-	: name(name), description(description), weight(weight), value(value)
-{
-}
-
 ItemBase::~ItemBase()
 {
 }

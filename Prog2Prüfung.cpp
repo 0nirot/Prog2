@@ -8,6 +8,7 @@
 #include "Renderer.h"
 #include <memory>
 #include <raylib.h>
+#include "LootTable.h"
 
 namespace
 {
@@ -29,6 +30,10 @@ namespace
 		{
 			player.moveRight();
 		}
+		if (IsKeyPressed(KEY_E))
+		{
+			player.pickUpItem();
+		}
 	}
 }
 
@@ -36,7 +41,9 @@ int main()
 {
 	// Erstelle und generiere die Map
 	std::shared_ptr<Map> map = std::make_shared<Map>(15, 15);
+	std::shared_ptr<LootTable> lootTable = std::make_shared<LootTable>();
 	MapGenerator generator;
+	generator.setLootTable(lootTable);
 	generator.generateMap(map);
 
 	// Erstelle Spieler auf dem Start-Tile
@@ -45,7 +52,7 @@ int main()
 	player.setPosition(static_cast<int>(map->getStartPosition().x), static_cast<int>(map->getStartPosition().y));
 
 	Renderer renderer(40, 20);
-	renderer.openWindow(*map, "Prog2Prüfung - Dungeon");
+	renderer.openWindow(*map, "Prog2Prüfung");
 
 	while (!renderer.shouldClose()) // Gameloop
 	{

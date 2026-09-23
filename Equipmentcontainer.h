@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 
-#include "ItemEquippable.h"
+#include "Items\ItemEquippable.h"
 
 // Beschreibt, welcher Item-Typ in einem Slot erlaubt ist.
 // Der Typ-Check wird als Funktionszeiger gespeichert (type erasure),

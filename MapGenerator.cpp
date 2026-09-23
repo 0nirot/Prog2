@@ -6,8 +6,7 @@
 #include "TileTreasure.h"
 #include "utils.h"
 #include <memory>
-#include <queue>
-#include <map>
+#include "Items\ItemBase.h"
 
 MapGenerator::MapGenerator()
 	: startX(0), startY(0), endX(0), endY(0)
@@ -176,6 +175,7 @@ void MapGenerator::placeTreasures(std::shared_ptr<Map> map)
 				{
 					// Ersetze TileTraversable mit TileTreasure
 					map->setTile(x, y, treasureTile);
+					treasureTile->setLoot(lootTable->getRandomItem());
 					// Entferne das Tile aus dem Vector um Duplikate zu vermeiden
 					pathTiles.erase(pathTiles.begin() + randomIndex);
 					goto next_treasure;
@@ -184,4 +184,9 @@ void MapGenerator::placeTreasures(std::shared_ptr<Map> map)
 		}
 		next_treasure:;
 	}
+}
+
+void MapGenerator::setLootTable(std::shared_ptr<LootTable> newlootTable)
+{
+	lootTable = newlootTable;
 }

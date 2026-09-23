@@ -36,11 +36,14 @@ Color Tile::getTileVisualization() const
 
 void Tile::traverse()
 {
-	// Standard-Implementierung (kann von Child-Klassen überschrieben werden)
 }
 
 void Tile::setPlayerOnTile(bool player)
 {
+	if (player)
+	{
+		traverse();
+	}
 	playerOnTile = player;
 }
 

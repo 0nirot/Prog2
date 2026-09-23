@@ -1,6 +1,6 @@
 #include "Renderer.h"
 #include "Map.h"
-#include "Character.h"
+#include "PlayerCharacter.h"
 
 namespace
 {
@@ -52,7 +52,7 @@ bool Renderer::shouldClose() const
 	return !windowOpen || WindowShouldClose();
 }
 
-void Renderer::render(const Map& map, const Character& player) const
+void Renderer::render(const Map& map, const PlayerCharacter& player) const
 {
 	BeginDrawing();
 	ClearBackground(BACKGROUND_COLOR);
@@ -115,15 +115,15 @@ void Renderer::drawPlayer(Rectangle playerRect) const
 	DrawCircleLinesV(center, radius, PLAYER_OUTLINE_COLOR);
 }
 
-void Renderer::drawStatusBar(const Map& map, const Character& player) const
+void Renderer::drawStatusBar(const Map& map, const PlayerCharacter& player) const
 {
 	const int barY = map.getHeight() * tileSize + 2 * padding;
 	const int textY = barY + (statusBarHeight - STATUS_FONT_SIZE) / 2;
 
-	DrawText(TextFormat("%s  |  Position: (%d, %d)  |  HP: %d/%d",
+	DrawText(TextFormat("%s  |  Position: (%.1f, %.1f)  |  Carry Weight: %d/%d",
 		player.getName().c_str(),
 		player.getX(), player.getY(),
-		player.getHealth(), player.getMaxHealth()),
+		player.getInventory()->getTotalWeight(), player.getMaxCarryWeight()),
 		padding, textY, STATUS_FONT_SIZE, STATUS_TEXT_COLOR);
 }
 

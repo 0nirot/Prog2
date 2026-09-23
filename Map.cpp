@@ -8,7 +8,6 @@ Map::Map(int width, int height)
 
 Map::~Map()
 {
-	// shared_ptr kümmert sich automatisch um den Speicher
 }
 
 void Map::setTile(int x, int y, std::shared_ptr<Tile> tile)

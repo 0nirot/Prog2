@@ -1,5 +1,5 @@
 #include "PlayerCharacter.h"
-#include "ItemBase.h"
+#include "Items\ItemBase.h"
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -34,7 +34,7 @@ bool PlayerCharacter::tryAddToBag(std::shared_ptr<ItemBase> item)
 {
 	if (!item)
 		return false;
-	if (!isOverWeight())
+	if (isOverWeight())
 		return false;
 
 	return getInventory()->addBagItem(item) >= 0;

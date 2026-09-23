@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 
-#include "ItemBase.h"
+#include "Items\ItemBase.h"
 
 // Generischer Container für Items. T muss ItemBase oder eine Kindklasse davon sein.
 template<typename T>

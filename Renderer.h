@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <raylib.h>
+#include "PlayerCharacter.h"
 
 class Map;
 class Character;
@@ -22,7 +23,7 @@ public:
 	bool shouldClose() const;
 
 	// Zeichnet einen kompletten Frame (Map, Spieler, Statuszeile)
-	void render(const Map& map, const Character& player) const;
+	void render(const Map& map, const PlayerCharacter& player) const;
 
 	int getTileSize() const;
 	int getPadding() const;
@@ -30,7 +31,7 @@ public:
 private:
 	void drawMap(const Map& map) const;
 	void drawPlayer(Rectangle playerRect) const;
-	void drawStatusBar(const Map& map, const Character& player) const;
+	void drawStatusBar(const Map& map, const PlayerCharacter& player) const;
 
 	Rectangle tileRect(int x, int y) const;
 

@@ -41,6 +41,7 @@ public:
 
 	// Inventar
 	std::shared_ptr<Inventory<ItemBase, ItemEquippable>> getInventory() const;
+	void pickUpItem();
 
 private:
 	std::string name;

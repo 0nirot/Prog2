@@ -1,14 +1,15 @@
 #include "Character.h"
 #include "EquipmentContainer.h"
-#include "ItemEquippable.h"
-#include "ItemWeapon.h"
-#include "ItemArmor.h"
-#include "ItemTrinket.h"
+#include "Items\ItemEquippable.h"
+#include "Items\ItemWeapon.h"
+#include "Items\ItemArmor.h"
+#include "Items\ItemTrinket.h"
 #include "Map.h"
+#include "TileTreasure.h"
+#include "TileTraversable.h"
 
 
 Character::Character()
-	: name("Peter"), posx(0), posy(0), health(100), maxHealth(100)
 {
 	std::vector<SlotType<ItemEquippable>> equipmentLayout = {
 		makeSlotType<ItemWeapon>("Weapo"),
@@ -132,4 +133,22 @@ std::shared_ptr<Inventory<ItemBase, ItemEquippable>> Character::getInventory() c
 void Character::setCurrentMap(std::shared_ptr<Map> map)
 {
 	currentMap = map;
+}
+
+void Character::pickUpItem()
+{
+	auto tile = currentMap->getTile(getX(), getY());
+
+		if (auto treasureTile = std::dynamic_pointer_cast<TileTreasure>(tile))
+		{
+			std::shared_ptr<ItemBase> loot = treasureTile->getLoot();
+			if (loot)
+			{
+				int slot = inventory->addBagItem(loot);
+				std::shared_ptr<TileTraversable> newTile = std::make_shared<TileTraversable>();
+				currentMap->setTile(getX(), getY(), newTile);
+				newTile->setPlayerOnTile(true);
+				printf("Picked up: %s\n", inventory->getBagItem(slot)->getName().c_str());
+			}
+		}
 }

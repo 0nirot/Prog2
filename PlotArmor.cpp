@@ -1,13 +1,12 @@
 #include "PlotArmor.h"
 
 PlotArmor::PlotArmor()
-	: ItemArmor("Plot Armor", "A legendary armor that protects the protagonist through the power of narrative", 12.0f, 300, 35)
 {
-}
-
-PlotArmor::PlotArmor(const std::string& name, const std::string& description, float weight, int value, int defense)
-	: ItemArmor(name, description, weight, value, defense)
-{
+	name = "Plot Armor";
+	description = "A legendary armor that protects the protagonist through the power of narrative";
+	weight = 5.0f;
+	value = 300;
+	defense = 35;
 }
 
 PlotArmor::~PlotArmor()
