@@ -3,6 +3,7 @@
 #include "Inventory.h"
 #include <string>
 #include <memory>
+#include "Map.h"
 
 class Character : public Movement
 {
@@ -23,6 +24,8 @@ public:
 	// Character Eigenschaften
 	const std::string& getName() const;
 	void setName(const std::string& name);
+
+	void setCurrentMap(std::shared_ptr<Map> map);
 
 	int getHealth() const;
 	void setHealth(int health);
@@ -45,5 +48,6 @@ private:
 	int posy;
 	int health;
 	int maxHealth;
+	std::shared_ptr<Map> currentMap;
 	std::shared_ptr<Inventory<ItemBase, ItemEquippable>> inventory;
 };

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Map.h"
 // Interface-Klasse für Bewegung (abstrakte Basisklasse)
 class Movement
 {

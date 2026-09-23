@@ -6,7 +6,7 @@ TileStart::TileStart()
 	startTile = true;
 	endTile = false;
 	tileVisualization = 'S';
-	playerOnTile = false;
+	playerOnTile = true;
 }
 
 TileStart::~TileStart()

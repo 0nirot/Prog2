@@ -8,12 +8,12 @@ public:
 	MapGenerator();
 	~MapGenerator();
 
-	void generateMap(Map& map);
+	void generateMap(std::shared_ptr<Map> map);
 
 private:
-	void generatePath(Map& map);
-	void fillWithObstacles(Map& map);
-	void placeTreasures(Map& map);
+	void generatePath(std::shared_ptr<Map> map);
+	void fillWithObstacles(std::shared_ptr<Map> map);
+	void placeTreasures(std::shared_ptr<Map> map);
 
 	int startX;
 	int startY;

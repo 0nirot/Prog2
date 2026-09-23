@@ -4,6 +4,7 @@
 #include "ItemWeapon.h"
 #include "ItemArmor.h"
 #include "ItemTrinket.h"
+#include "Map.h"
 
 
 Character::Character()
@@ -15,6 +16,7 @@ Character::Character()
 		makeSlotType<ItemTrinket>("Trinket")
 	};
 	inventory = std::make_shared<Inventory<ItemBase, ItemEquippable>>(10, equipmentLayout);
+
 }
 
 Character::~Character()
@@ -104,4 +106,9 @@ void Character::heal(int amount)
 std::shared_ptr<Inventory<ItemBase, ItemEquippable>> Character::getInventory() const
 {
 	return inventory;
+}
+
+void Character::setCurrentMap(std::shared_ptr<Map> map)
+{
+	currentMap = map;
 }

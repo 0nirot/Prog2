@@ -69,6 +69,24 @@ public:
     const ItemContainer<TItem>& getBag() const { return m_bag; }
     const EquipmentContainer<TEquippable>& getEquipment() const { return m_equipment; }
 
+	float getTotalWeight() const
+	{
+		float total = 0.0f;
+		for (std::size_t i = 0; i < m_bag.getSlotCount(); ++i)
+		{
+			auto item = m_bag.getItem(i);
+			if (item)
+				total += item->getWeight();
+		}
+		for (std::size_t i = 0; i < m_equipment.getSlotCount(); ++i)
+		{
+			auto item = m_equipment.getItem(i);
+			if (item)
+				total += item->getWeight();
+		}
+		return total;
+	}
+
 private:
     ItemContainer<TItem> m_bag;
     EquipmentContainer<TEquippable> m_equipment;

@@ -37,3 +37,13 @@ int Map::getHeight() const
 {
 	return mapHeight;
 }
+
+void Map::setStartPosition(const Vector2& position)
+{
+	startPosition = position;
+}
+
+Vector2 Map::getStartPosition() const
+{
+	return startPosition;
+}

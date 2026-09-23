@@ -1,4 +1,4 @@
-// Prog2Prüfung/utils.cpp
+// Prog2PrÃ¼fung/utils.cpp
 #include "utils.h"
 #include <random>
 

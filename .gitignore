@@ -1,0 +1,11 @@
+# CMake / Visual Studio Build-Ausgaben
+out/
+build/
+.vs/
+CMakeUserPresets.json
+
+# Visual Studio
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
