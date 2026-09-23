@@ -1,7 +1,7 @@
 #include "Tile.h"
 
 Tile::Tile()
-	: traversable(false), startTile(false), endTile(false), playerOnTile(false), isPath(false), waypoint(false), tileVisualization('.')
+	: traversable(false), startTile(false), endTile(false), playerOnTile(false), isPath(false), waypoint(false), tileVisualization(DARKGRAY)
 {
 }
 
@@ -29,7 +29,7 @@ bool Tile::isPlayerOnTile() const
 	return playerOnTile;
 }
 
-char Tile::getTileVisualization() const
+Color Tile::getTileVisualization() const
 {
 	return tileVisualization;
 }

@@ -8,5 +8,5 @@ public:
 	~TileBlocked();
 
 	bool isTraversable() const override;
-	char getTileVisualization() const override;
+	Color getTileVisualization() const override;
 };

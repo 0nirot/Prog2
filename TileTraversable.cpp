@@ -5,7 +5,7 @@ TileTraversable::TileTraversable()
 	traversable = true;
 	startTile = false;
 	endTile = false;
-	tileVisualization = 'N';
+	tileVisualization = LIGHTGRAY;
 }
 
 TileTraversable::~TileTraversable()
@@ -17,7 +17,7 @@ bool TileTraversable::isTraversable() const
 	return true;
 }
 
-char TileTraversable::getTileVisualization() const
+Color TileTraversable::getTileVisualization() const
 {
 	return tileVisualization;
 }

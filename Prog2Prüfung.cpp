@@ -1,102 +1,56 @@
-﻿#include "Prog2Prüfung.h"
+﻿// Prog2Prüfung.cpp: Definiert den Einstiegspunkt für die Anwendung.
+//
+
+#include "Prog2Prüfung.h"
 #include "Map.h"
 #include "MapGenerator.h"
-#include <iostream>
-#include <sstream>
-#include <thread>
-#include <chrono>
-#include "Inventory.h"
-#include "ItemSword.h"
-#include "ItemWeapon.h"
-#include "ItemArmor.h"
-#include "ItemTrinket.h"
-#include "EquipmentContainer.h"
 #include "PlayerCharacter.h"
+#include "Renderer.h"
+#include <memory>
 #include <raylib.h>
 
-using namespace std;
-
-// Plattformunabhängige Deklaration; die Windows-spezifische Implementierung
-// befindet sich in WindowsConsole.cpp, damit <windows.h> nicht in dieser TU
-// mit anderen Bibliotheken (z.B. raylib) kollidiert.
-void enableAnsiEscapes();
-
-void renderMap(const std::shared_ptr<Map>& map)
+namespace
 {
-	ostringstream frame;
-
-	frame << "\033[H"; // Cursor nach oben links
-
-	for (int y = 0; y < map->getHeight(); ++y)
+	void handleInput(PlayerCharacter& player)
 	{
-		for (int x = 0; x < map->getWidth(); ++x)
+		if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
 		{
-			auto tile = map->getTile(x, y);
-			if (tile != nullptr)
-			{
-				// Wenn Spieler auf diesem Tile ist, @ zeichnen
-				if (tile->isPlayerOnTile())
-				{
-					frame << "@";
-				}
-				// Wenn Pfad, dann grün färben
-				else if (tile->isPathTile())
-				{
-					frame << "\033[32m" << tile->getTileVisualization() << "\033[0m";
-				}
-				else
-				{
-					frame << tile->getTileVisualization();
-				}
-			}
-
+			player.moveUp();
 		}
-		frame << "\033[K\n"; // Rest der Zeile löschen
+		if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S))
+		{
+			player.moveDown();
+		}
+		if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A))
+		{
+			player.moveLeft();
+		}
+		if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))
+		{
+			player.moveRight();
+		}
 	}
-
-	cout << frame.str() << flush;
 }
 
 int main()
 {
-	enableAnsiEscapes();
-
-	// Erstelle eine Map
+	// Erstelle und generiere die Map
 	std::shared_ptr<Map> map = std::make_shared<Map>(15, 15);
-
-	// Generiere die Map
 	MapGenerator generator;
 	generator.generateMap(map);
 
-	//Erstelle player
+	// Erstelle Spieler auf dem Start-Tile
 	PlayerCharacter player;
 	player.setCurrentMap(map);
 	player.setPosition(static_cast<int>(map->getStartPosition().x), static_cast<int>(map->getStartPosition().y));
 
+	Renderer renderer(40, 20);
+	renderer.openWindow(*map, "Prog2Prüfung - Dungeon");
 
-	std::cout << "\033[2J"; // Bildschirm einmalig komplett leeren
-
-	while (true) //gameloop
+	while (!renderer.shouldClose()) // Gameloop
 	{
-		renderMap(map);
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-		if (IsKeyPressed(KEY_UP))
-		{
-			player.moveUp();
-		}
-		if (IsKeyPressed(KEY_DOWN))
-		{
-			player.moveDown();
-		}
-		if (IsKeyPressed(KEY_LEFT))
-		{
-			player.moveLeft();
-		}
-		if (IsKeyPressed(KEY_RIGHT))
-		{
-			player.moveRight();
-		}
-		printf("Player position: (%d, %d)\n", player.getX(), player.getY());
+		handleInput(player);
+		renderer.render(*map, player);
 	}
 
 	return 0;

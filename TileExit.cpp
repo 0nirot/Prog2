@@ -5,7 +5,7 @@ TileExit::TileExit()
 	traversable = true;
 	startTile = false;
 	endTile = true;
-	tileVisualization = 'E';
+	tileVisualization = RED;
 }
 
 TileExit::~TileExit()
@@ -22,7 +22,7 @@ bool TileExit::isEndTile() const
 	return true;
 }
 
-char TileExit::getTileVisualization() const
+Color TileExit::getTileVisualization() const
 {
 	return tileVisualization;
 }

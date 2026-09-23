@@ -1,4 +1,5 @@
 #pragma once
+#include <raylib.h>
 
 class Tile
 {
@@ -10,7 +11,7 @@ public:
 	virtual bool isStartTile() const;
 	virtual bool isEndTile() const;
 	virtual bool isPlayerOnTile() const;
-	virtual char getTileVisualization() const;
+	virtual Color getTileVisualization() const;
 	virtual void traverse();
 
 	void setPlayerOnTile(bool player);
@@ -26,5 +27,5 @@ protected:
 	bool playerOnTile;
 	bool isPath;
 	bool waypoint;
-	char tileVisualization;
+	Color tileVisualization;
 };

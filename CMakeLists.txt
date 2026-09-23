@@ -61,6 +61,7 @@ set(SOURCES
     Map.cpp
     MapGenerator.cpp
     PlayerCharacter.cpp
+    Renderer.cpp
     Tile.cpp
     TileBlocked.cpp
     TileExit.cpp
@@ -68,7 +69,6 @@ set(SOURCES
     TileTraversable.cpp
     TileTreasure.cpp
     utils.cpp
-    WindowsConsole.cpp
 )
 
 set(HEADERS
@@ -87,6 +87,7 @@ set(HEADERS
     MapGenerator.h
     Movement.h
     PlayerCharacter.h
+    Renderer.h
     Tile.h
     TileBlocked.h
     TileExit.h
@@ -125,7 +126,7 @@ if(MSVC)
         _CRT_SECURE_NO_WARNINGS
         NOMINMAX
     )
-    # Konsolenanwendung (Ausgabe über cout / ANSI-Escapes)
+    # Konsolen-Subsystem: raylib-Log bleibt sichtbar, main() als Einstiegspunkt
     set_target_properties(${PROJECT_NAME} PROPERTIES
         WIN32_EXECUTABLE OFF
         VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"

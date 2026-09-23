@@ -3,7 +3,7 @@
 TileTreasure::TileTreasure()
 {
 	traversable = true;
-	tileVisualization = 'T';
+	tileVisualization = GOLD;
 }
 
 TileTreasure::~TileTreasure()
@@ -15,7 +15,7 @@ bool TileTreasure::isTraversable() const
 	return true;
 }
 
-char TileTreasure::getTileVisualization() const
+Color TileTreasure::getTileVisualization() const
 {
 	return tileVisualization;
 }

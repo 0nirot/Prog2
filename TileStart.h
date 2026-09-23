@@ -9,5 +9,5 @@ public:
 
 	bool isTraversable() const override;
 	bool isStartTile() const override;
-	char getTileVisualization() const override;
+	Color getTileVisualization() const override;
 };

@@ -5,7 +5,7 @@ TileStart::TileStart()
 	traversable = true;
 	startTile = true;
 	endTile = false;
-	tileVisualization = 'S';
+	tileVisualization = GREEN;
 	playerOnTile = true;
 }
 
@@ -23,7 +23,7 @@ bool TileStart::isStartTile() const
 	return true;
 }
 
-char TileStart::getTileVisualization() const
+Color TileStart::getTileVisualization() const
 {
 	return tileVisualization;
 }
