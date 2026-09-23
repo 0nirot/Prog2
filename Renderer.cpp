@@ -58,7 +58,6 @@ void Renderer::render(const Map& map, const Character& player) const
 	ClearBackground(BACKGROUND_COLOR);
 
 	drawMap(map);
-	drawPlayer(player);
 	drawStatusBar(map, player);
 
 	EndDrawing();
@@ -88,21 +87,27 @@ void Renderer::drawMap(const Map& map) const
 
 			DrawRectangleRec(rect, tile->getTileVisualization());
 
+			/*
 			// Pfad-Tiles bekommen ein halbtransparentes Overlay,
 			// damit Start/Ende/Schätze ihre eigene Farbe behalten
 			if (tile->isPathTile())
 			{
 				DrawRectangleRec(rect, PATH_OVERLAY_COLOR);
 			}
+			*/
 
+			if (tile->isPlayerOnTile())
+			{
+				drawPlayer(rect);
+			}
 			DrawRectangleLinesEx(rect, 1.0f, GRID_COLOR);
 		}
 	}
 }
 
-void Renderer::drawPlayer(const Character& player) const
+void Renderer::drawPlayer(Rectangle playerRect) const
 {
-	const Rectangle rect = tileRect(player.getX(), player.getY());
+	const Rectangle rect = playerRect;
 	const Vector2 center = { rect.x + rect.width / 2.0f, rect.y + rect.height / 2.0f };
 	const float radius = tileSize * 0.35f;
 

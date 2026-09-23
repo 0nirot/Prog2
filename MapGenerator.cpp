@@ -128,15 +128,15 @@ void MapGenerator::generatePath(std::shared_ptr<Map> map)
 
 void MapGenerator::fillWithObstacles(std::shared_ptr<Map> map)
 {
-	for (int y = 1; y < map->getHeight() - 1; ++y)
+	for (int y = 0; y < map->getHeight(); ++y)
 	{
-		for (int x = 1; x < map->getWidth() - 1; ++x)
+		for (int x = 0; x < map->getWidth(); ++x)
 		{
 			auto tile = map->getTile(x, y);
 
 			if (tile != nullptr && tile->isTraversable() && !tile->isStartTile() && !tile->isEndTile() && !tile->isPathTile())
 			{
-				if (utils::trueRand(0, 100) < 30)
+				if (utils::trueRand(0, 100) < 80)
 				{
 					map->setTile(x, y, std::make_shared<TileBlocked>());
 				}

@@ -18,7 +18,7 @@ public:
 	float getCurrentCarryWeight() const;
 
 	// Prüft, ob zusätzliches Gewicht noch mitgeführt werden kann
-	bool isOverWeight(float additionalWeight) const;
+	bool isOverWeight() const;
 
 	// Versucht ein Item in die Tasche zu legen (prüft Gewichtslimit)
 	// Gibt true zurück, wenn das Item erfolgreich gelegt wurde

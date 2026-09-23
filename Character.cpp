@@ -25,22 +25,43 @@ Character::~Character()
 
 void Character::moveUp()
 {
-	posy--;
+	if (isMovePossible(getX(), getY() - 1, *currentMap))
+	{
+		currentMap->getTile(getX(), getY())->setPlayerOnTile(false);
+		posy--;
+		currentMap->getTile(getX(), getY())->setPlayerOnTile(true);
+		
+	}
 }
 
 void Character::moveDown()
 {
-	posy++;
+	if (isMovePossible(getX(), getY() + 1, *currentMap))
+	{
+		currentMap->getTile(getX(), getY())->setPlayerOnTile(false);
+		posy++;
+		currentMap->getTile(getX(), getY())->setPlayerOnTile(true);
+	}
 }
 
 void Character::moveLeft()
 {
-	posx--;
+	if (isMovePossible(getX() - 1, getY(), *currentMap))
+	{
+		currentMap->getTile(getX(), getY())->setPlayerOnTile(false);
+		posx--;
+		currentMap->getTile(getX(), getY())->setPlayerOnTile(true);
+	}
 }
 
 void Character::moveRight()
 {
-	posx++;
+	if (isMovePossible(getX() + 1, getY(), *currentMap))
+	{
+		currentMap->getTile(getX(), getY())->setPlayerOnTile(false);
+		posx++;
+		currentMap->getTile(getX(), getY())->setPlayerOnTile(true);
+	}
 }
 
 int Character::getX() const

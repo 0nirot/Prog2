@@ -49,7 +49,10 @@ int main()
 
 	while (!renderer.shouldClose()) // Gameloop
 	{
-		handleInput(player);
+		if (!player.isOverWeight())
+		{
+			handleInput(player);
+		}
 		renderer.render(*map, player);
 	}
 

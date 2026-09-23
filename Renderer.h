@@ -29,7 +29,7 @@ public:
 
 private:
 	void drawMap(const Map& map) const;
-	void drawPlayer(const Character& player) const;
+	void drawPlayer(Rectangle playerRect) const;
 	void drawStatusBar(const Map& map, const Character& player) const;
 
 	Rectangle tileRect(int x, int y) const;
