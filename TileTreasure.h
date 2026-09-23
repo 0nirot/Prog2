@@ -13,10 +13,12 @@ public:
 	Color getTileVisualization() const override;
 	void traverse() override;
 
-	void setLoot(std::unique_ptr<ItemBase> item);
+	// Übernimmt den Besitz des Items (unique_ptr wird implizit zu shared_ptr)
+	void setLoot(std::shared_ptr<ItemBase> item);
+	// Gibt den geteilten Besitz weiter, damit das Item das Tile überlebt
 	std::shared_ptr<ItemBase> getLoot() const;
 
 private:
-	std::unique_ptr<ItemBase> loot;
+	std::shared_ptr<ItemBase> loot;
 
 };

@@ -52,7 +52,7 @@ int main()
 	player.setPosition(static_cast<int>(map->getStartPosition().x), static_cast<int>(map->getStartPosition().y));
 
 	Renderer renderer(40, 20);
-	renderer.openWindow(*map, "Prog2Prüfung");
+	renderer.openWindow(*map, player, "Prog2Prüfung");
 
 	while (!renderer.shouldClose()) // Gameloop
 	{

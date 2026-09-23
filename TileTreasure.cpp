@@ -25,12 +25,12 @@ void TileTreasure::traverse()
 	printf("%s\n", loot->getName().c_str());
 }
 
-void TileTreasure::setLoot(std::unique_ptr<ItemBase> item)
+void TileTreasure::setLoot(std::shared_ptr<ItemBase> item)
 {
 	loot = std::move(item);
 }
 
 std::shared_ptr<ItemBase> TileTreasure::getLoot() const
 {
-	return std::shared_ptr<ItemBase>(loot.get());
+	return loot;
 }
