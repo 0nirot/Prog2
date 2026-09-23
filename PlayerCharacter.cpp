@@ -1,9 +1,9 @@
 #include "PlayerCharacter.h"
 #include "ItemBase.h"
 
-PlayerCharacter::PlayerCharacter(int strength)
-	: Character(), strength(strength)
+PlayerCharacter::PlayerCharacter()
 {
+	strength = 5;
 }
 
 PlayerCharacter::~PlayerCharacter()
@@ -27,7 +27,7 @@ float PlayerCharacter::getMaxCarryWeight() const
 
 bool PlayerCharacter::isOverWeight() const
 {
-	return (getInventory()->getTotalWeight() > getMaxCarryWeight());
+	return (getInventory()->getTotalWeight() >= getMaxCarryWeight());
 }
 
 bool PlayerCharacter::tryAddToBag(std::shared_ptr<ItemBase> item)

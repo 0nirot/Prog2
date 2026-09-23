@@ -5,7 +5,7 @@
 class PlayerCharacter : public Character
 {
 public:
-	explicit PlayerCharacter(int strength = 1);
+	explicit PlayerCharacter();
 	~PlayerCharacter();
 
 	int getStrength() const;
