@@ -20,7 +20,6 @@ public:
 	bool isWaypoint() const;
 	void setWaypoint(bool waypoint);
 
-	// Markierung für den kürzesten Weg Start -> Exit (PathFinder)
 	bool isBestPath() const;
 	void setBestPath(bool bestPath);
 

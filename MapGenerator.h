@@ -21,6 +21,5 @@ private:
 	int startY;
 	int endX;
 	int endY;
-	std::vector<std::shared_ptr<Tile>> pathTiles;
 	std::shared_ptr<LootTable> lootTable;
 };

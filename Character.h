@@ -13,7 +13,6 @@ public:
 	Character();
 	virtual ~Character();
 
-	// Movement Interface Implementierung
 	void moveUp() override;
 	void moveDown() override;
 	void moveLeft() override;
@@ -23,7 +22,6 @@ public:
 	int getY() const override;
 	void setPosition(int x, int y) override;
 
-	// Character Eigenschaften
 	const std::string& getName() const;
 	void setName(const std::string& name);
 
@@ -33,11 +31,9 @@ public:
 	float getStrength() const;
 	void setStrength(float strength);
 
-	// Tragegewicht (1 Stärke = +2 Gewicht)
 	float getMaxCarryWeight() const;
 	bool isOverWeight() const;
-	// Passt das Item noch ins Tragegewicht, ohne überladen zu sein?
-	bool canCarry(const ItemBase& item) const;
+	bool canCarry(std::shared_ptr<ItemBase>& item) const;
 
 	// ---- Automatisches Laufen zum Exit ----
 	// Berechnet mit A* den Weg von der aktuellen Position zum Exit und startet das Laufen.
@@ -58,15 +54,10 @@ public:
 
 
 private:
-	// Gemeinsamer Bewegungscode für moveUp/Down/Left/Right und autoWalk.
-	// Gibt false zurück, wenn das Ziel-Tile nicht begehbar ist.
 	bool moveTo(int newX, int newY);
 
-	// Hebt das Item auf dem aktuellen Tile automatisch auf (Aufgabe 2)
-	// und rüstet es aus, wenn es einen besseren Stärkebonus gibt (Aufgabe 3)
 	void autoPickUpItem();
 
-	// Ersetzt das Schatz-Tile unter dem Character durch ein leeres Tile
 	void clearTreasureTile();
 
 	std::string name;
@@ -75,9 +66,9 @@ private:
 	std::shared_ptr<Map> currentMap;
 	std::shared_ptr<Inventory<ItemBase, ItemEquippable>> m_inventory;
 
-	std::vector<GridPosition> autoWalkPath; // geplanter Weg von autoWalk()
-	std::size_t autoWalkIndex = 0;          // nächster Schritt in autoWalkPath
-	float autoWalkStepDelay = 0.25f;        // Sekunden zwischen zwei Schritten
+	std::vector<GridPosition> autoWalkPath;
+	std::size_t autoWalkIndex = 0;          
+	float autoWalkStepDelay = 0.25f;        
 	float autoWalkTimer = 0.0f;
 protected:
 	float strength;

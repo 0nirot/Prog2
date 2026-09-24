@@ -39,11 +39,10 @@ namespace
 		}
 		if (IsKeyPressed(KEY_SPACE))
 		{
-			player.autoWalk();
+			player.autoWalk(0.25f);
 		}
 	}
 
-	// Füllt alle freien Taschenslots mit zufälligen Items aus der LootTable
 	void fillInventoryWithRandomItems(PlayerCharacter& player, std::shared_ptr<LootTable> lootTable)
 	{
 		while (player.getInventory()->addBagItem(lootTable->getRandomItem()) >= 0)
@@ -51,10 +50,8 @@ namespace
 		}
 	}
 
-	// Sucht mit A* den kürzesten Weg von der Spielerposition zum Exit und markiert ihn auf der Map
 	void showBestPath(Map& map, const PlayerCharacter& player)
 	{
-		// Alte Markierung entfernen
 		for (int y = 0; y < map.getHeight(); ++y)
 		{
 			for (int x = 0; x < map.getWidth(); ++x)
@@ -126,14 +123,14 @@ namespace
 
 int main()
 {
-	// Erstelle und generiere die Map
+	//Map
 	std::shared_ptr<Map> map = std::make_shared<Map>(15, 15);
 	std::shared_ptr<LootTable> lootTable = std::make_shared<LootTable>();
 	MapGenerator generator;
 	generator.setLootTable(lootTable);
 	generator.generateMap(map);
 
-	// Erstelle Spieler auf dem Start-Tile
+	//Player
 	PlayerCharacter player;
 	player.setCurrentMap(map);
 	player.setPosition(static_cast<int>(map->getStartPosition().x), static_cast<int>(map->getStartPosition().y));
@@ -143,13 +140,11 @@ int main()
 
 	while (!renderer.shouldClose()) // Gameloop
 	{
-		// Während autoWalk läuft, keine manuelle Bewegung
 		if (!player.isOverWeight() && !player.isAutoWalking())
 		{
 			handleMovementInput(player);
 		}
 
-		// Macht beim automatischen Laufen alle paar Frames einen Schritt
 		player.updateAutoWalk(GetFrameTime());
 
 		handleInvetoryInput(player, lootTable);

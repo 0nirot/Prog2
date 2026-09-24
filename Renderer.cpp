@@ -9,17 +9,14 @@
 
 #include <algorithm>
 
-namespace
-{
 	const Color BACKGROUND_COLOR = { 30, 30, 36, 255 };
 	const Color GRID_COLOR = { 0, 0, 0, 80 };
 	const Color PATH_OVERLAY_COLOR = { 0, 200, 80, 90 };
-	const Color BEST_PATH_COLOR = { 0, 90, 255, 150 }; // halbtransparentes Blau
+	const Color BEST_PATH_COLOR = { 0, 90, 255, 150 };
 	const Color PLAYER_COLOR = { 41, 128, 255, 255 };
 	const Color PLAYER_OUTLINE_COLOR = { 10, 40, 100, 255 };
 	const Color STATUS_TEXT_COLOR = RAYWHITE;
 
-	// Inventar
 	const Color PANEL_COLOR = { 40, 40, 48, 255 };
 	const Color PANEL_BORDER_COLOR = { 90, 90, 100, 255 };
 	const Color ROW_ALT_COLOR = { 48, 48, 58, 255 };
@@ -31,7 +28,6 @@ namespace
 	constexpr int INVENTORY_FONT_SIZE = 16;
 	constexpr int TARGET_FPS = 60;
 
-	// Spaltenoffsets (relativ zum linken Rand des Taschen-Panels) für die Item-Zeilen
 	constexpr int COL_INDEX = 8;
 	constexpr int COL_NAME = 40;
 	constexpr int COL_DESCRIPTION = 180;
@@ -39,7 +35,7 @@ namespace
 	constexpr int COL_VALUE = 550;
 	constexpr int COL_STRENGTH = 620;
 	constexpr int COL_END = 690;
-}
+
 
 Renderer::Renderer(int tileSize, int padding)
 	: tileSize(tileSize)
@@ -64,11 +60,9 @@ void Renderer::openWindow(const Map& map, const PlayerCharacter& player, const s
 
 	const auto& inventory = *player.getInventory();
 
-	// Breite: Map + Equipment-Panel rechts daneben, mindestens aber so breit wie das Taschen-Panel
 	const int mapAndEquipmentWidth = padding + mapPixelWidth(map) + padding + equipmentPanelWidth + padding;
 	const int width = std::max(mapAndEquipmentWidth, padding + bagPanelMinWidth() + padding);
 
-	// Höhe: Map, Statusleiste und darunter das Taschen-Panel
 	const int height = padding + mapPixelHeight(map) + padding
 		+ statusBarHeight
 		+ bagPanelHeight(inventory.getBag().getSlotCount()) + padding;
@@ -128,16 +122,6 @@ void Renderer::drawMap(const Map& map) const
 
 			DrawRectangleRec(rect, tile->getTileVisualization());
 
-			/*
-			// Pfad-Tiles bekommen ein halbtransparentes Overlay,
-			// damit Start/Ende/Schätze ihre eigene Farbe behalten
-			if (tile->isPathTile())
-			{
-				DrawRectangleRec(rect, PATH_OVERLAY_COLOR);
-			}
-			*/
-
-			// Kürzester Weg (Taste T): blaues Overlay, Start/Exit bleiben erkennbar
 			if (tile->isBestPath())
 			{
 				DrawRectangleRec(rect, BEST_PATH_COLOR);
@@ -178,12 +162,10 @@ void Renderer::drawInventory(const Map& map, const PlayerCharacter& player) cons
 {
 	const auto& inventory = *player.getInventory();
 
-	// Ausrüstung: rechts neben der Map, oben ausgerichtet
 	const int equipmentX = padding + mapPixelWidth(map) + padding;
 	const int equipmentY = padding;
 	drawEquipment(equipmentX, equipmentY, inventory.getEquipment());
 
-	// Tasche: unter der Statusleiste
 	const int bagX = padding;
 	const int bagY = padding + mapPixelHeight(map) + padding + statusBarHeight;
 	drawBag(bagX, bagY, inventory.getBag(), inventory);
@@ -195,11 +177,9 @@ void Renderer::drawBag(int x, int y, const ItemContainer<ItemBase>& bag, const I
 	const int panelWidth = std::max(bagPanelMinWidth(), GetScreenWidth() - 2 * padding);
 	const int panelHeight = bagPanelHeight(slotCount);
 
-	// Panel-Hintergrund
 	DrawRectangle(x, y, panelWidth, panelHeight, PANEL_COLOR);
 	DrawRectangleLines(x, y, panelWidth, panelHeight, PANEL_BORDER_COLOR);
 
-	// Kopfzeile
 	const int headerTextY = y + (inventoryHeaderHeight - INVENTORY_FONT_SIZE) / 2;
 	DrawText("#", x + COL_INDEX, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
 	DrawText("Name", x + COL_NAME, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
@@ -209,7 +189,6 @@ void Renderer::drawBag(int x, int y, const ItemContainer<ItemBase>& bag, const I
 	DrawText("Strength", x + COL_STRENGTH, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
 	DrawLine(x, y + inventoryHeaderHeight, x + panelWidth, y + inventoryHeaderHeight, PANEL_BORDER_COLOR);
 
-	// Zeilen in Array-Reihenfolge: Index 0 direkt unter der Kopfzeile
 	for (std::size_t i = 0; i < slotCount; ++i)
 	{
 		const int rowY = y + inventoryHeaderHeight + static_cast<int>(i) * inventoryRowHeight;
@@ -255,7 +234,6 @@ void Renderer::drawItemRow(int x, int y, std::size_t index, const std::shared_pt
 	DrawText(TextFormat("%.1f", item->getWeight()), x + COL_WEIGHT, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
 	DrawText(TextFormat("%d", item->getValue()), x + COL_VALUE, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
 
-	// Stärkebonus gibt es nur bei ausrüstbaren Items
 	if (auto equippable = std::dynamic_pointer_cast<ItemEquippable>(item))
 	{
 		DrawText(TextFormat("%+.1f", equippable->getStrengthBonus()), x + COL_STRENGTH, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
@@ -271,16 +249,13 @@ void Renderer::drawEquipment(int x, int y, const EquipmentContainer<ItemEquippab
 	const std::size_t slotCount = equipment.getSlotCount();
 	const int panelHeight = inventoryHeaderHeight + static_cast<int>(slotCount) * inventoryRowHeight;
 
-	// Panel-Hintergrund
 	DrawRectangle(x, y, equipmentPanelWidth, panelHeight, PANEL_COLOR);
 	DrawRectangleLines(x, y, equipmentPanelWidth, panelHeight, PANEL_BORDER_COLOR);
 
-	// Kopfzeile
 	const int headerTextY = y + (inventoryHeaderHeight - INVENTORY_FONT_SIZE) / 2;
 	DrawText("Equipment", x + COL_INDEX, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
 	DrawLine(x, y + inventoryHeaderHeight, x + equipmentPanelWidth, y + inventoryHeaderHeight, PANEL_BORDER_COLOR);
 
-	// Slots in Array-Reihenfolge: "Slottyp: Itemname"
 	for (std::size_t i = 0; i < slotCount; ++i)
 	{
 		const int rowY = y + inventoryHeaderHeight + static_cast<int>(i) * inventoryRowHeight;

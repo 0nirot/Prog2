@@ -9,11 +9,13 @@ public:
 	LootTable();
 	~LootTable();
 
-	ItemBase* getItem(int index) const;
+	std::shared_ptr<ItemBase> getItem(int index) const;
 
 	void removeItem(int index);
 
 	std::unique_ptr<ItemBase> getRandomItem() const;
+
+	int getItemCount() const;
 
 private:
 	std::vector<std::unique_ptr<ItemBase>> items;

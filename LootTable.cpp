@@ -31,11 +31,11 @@ LootTable::~LootTable()
 }
 
 
-ItemBase* LootTable::getItem(int index) const
+std::shared_ptr<ItemBase> LootTable::getItem(int index) const
 {
 	if (index < 0 || index >= static_cast<int>(items.size()))
 		return nullptr;
-	return items[index].get();
+	return items[index]->clone();
 }
 
 
@@ -56,4 +56,9 @@ std::unique_ptr<ItemBase> LootTable::getRandomItem() const
 	int randIndex = utils::trueRand(0, static_cast<int>(items.size()) - 1);
 
 	return items[randIndex]->clone();
+}
+
+int LootTable::getItemCount() const
+{
+	return static_cast<int>(items.size());
 }

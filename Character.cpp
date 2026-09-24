@@ -179,15 +179,10 @@ bool Character::isOverWeight() const
 	return m_inventory->getTotalWeight() >= getMaxCarryWeight();
 }
 
-bool Character::canCarry(const ItemBase& item) const
+bool Character::canCarry(std::shared_ptr<ItemBase>& item) const
 {
-	// Gleiche Grenze wie isOverWeight: danach muss man sich noch bewegen können
-	return m_inventory->getTotalWeight() + item.getWeight() < getMaxCarryWeight();
+	return m_inventory->getTotalWeight() + item->getWeight() < getMaxCarryWeight();
 }
-
-// ---------------------------------------------------------------------------
-// Automatisches Laufen
-// ---------------------------------------------------------------------------
 
 bool Character::autoWalk(float stepDelay)
 {
@@ -205,7 +200,7 @@ bool Character::autoWalk(float stepDelay)
 		return false;
 	}
 
-	autoWalkIndex = 1; // Index 0 ist die aktuelle Position
+	autoWalkIndex = 1;
 	autoWalkStepDelay = stepDelay;
 	autoWalkTimer = 0.0f;
 	printf("Auto walk started: %d steps\n", static_cast<int>(autoWalkPath.size()) - 1);
@@ -270,14 +265,12 @@ void Character::autoPickUpItem()
 	if (!loot)
 		return;
 
-	// Aufgabe 2b: genug Stärke, um das Item zu tragen?
-	if (!canCarry(*loot))
+	if (!canCarry(loot))
 	{
 		printf("Too heavy, left behind: %s\n", loot->getName().c_str());
 		return;
 	}
 
-	// Aufgabe 2a: freier Slot in der Tasche?
 	const int bagSlot = m_inventory->addBagItem(loot);
 	if (bagSlot < 0)
 	{
@@ -288,7 +281,6 @@ void Character::autoPickUpItem()
 	clearTreasureTile();
 	printf("Auto picked up: %s\n", loot->getName().c_str());
 
-	// Aufgabe 3: besserer Stärkebonus als im passenden Ausrüstungsslot? -> ausrüsten
 	auto equippable = std::dynamic_pointer_cast<ItemEquippable>(loot);
 	if (equippable && m_inventory->isBetterThanEquipped(equippable))
 	{

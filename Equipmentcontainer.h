@@ -7,9 +7,6 @@
 
 #include "Items\ItemEquippable.h"
 
-// Beschreibt, welcher Item-Typ in einem Slot erlaubt ist.
-// Der Typ-Check wird als Funktionszeiger gespeichert (type erasure),
-// damit alle Slots im selben vector liegen können.
 template<typename TBase>
 struct SlotType
 {
@@ -17,7 +14,6 @@ struct SlotType
     const char* name;
 };
 
-// Erzeugt einen Slot, der nur TAllowed (oder Kindklassen davon) akzeptiert
 template<typename TAllowed, typename TBase = ItemEquippable>
 SlotType<TBase> makeSlotType(const char* name = "")
 {
@@ -29,7 +25,6 @@ SlotType<TBase> makeSlotType(const char* name = "")
     };
 }
 
-// Container, bei dem jeder Slot an einen bestimmten Item-Typ gebunden ist
 template<typename T>
 class EquipmentContainer
 {
@@ -38,23 +33,17 @@ class EquipmentContainer
 public:
     using ItemPtr = std::shared_ptr<T>;
 
-    // Das Layout legt bei der Instanziierung Anzahl UND Typ der Slots fest
     explicit EquipmentContainer(std::vector<SlotType<T>> layout)
         : m_slotTypes(std::move(layout))
         , m_slots(m_slotTypes.size())
     {
     }
 
-    // Passt das Item in diesen Slot?
     bool accepts(std::size_t slot, const ItemPtr& item) const
     {
         return isValidSlot(slot) && item && m_slotTypes[slot].accepts(item.get());
     }
 
-    // Sucht anhand des Item-Typs den passenden Slot.
-    // Bevorzugt einen freien passenden Slot; sind alle passenden belegt,
-    // wird der erste passende zurückgegeben (dort wird dann getauscht).
-    // Gibt -1 zurück, wenn kein Slot diesen Typ akzeptiert.
     int findSlotFor(const ItemPtr& item) const
     {
         int firstMatch = -1;
@@ -70,9 +59,6 @@ public:
         return firstMatch;
     }
 
-    // Setzt ein Item in einen bestimmten Slot.
-    // Gibt false zurück, wenn der Slot ungültig ist oder der Typ nicht passt.
-    // nullptr leert den Slot.
     bool setItem(std::size_t slot, ItemPtr item)
     {
         if (!isValidSlot(slot) || (item && !accepts(slot, item)))
@@ -87,7 +73,6 @@ public:
         return isValidSlot(slot) ? m_slots[slot] : nullptr;
     }
 
-    // Typisierter Zugriff: getItemAs<ItemWeapon>(0)
     template<typename TAs>
     std::shared_ptr<TAs> getItemAs(std::size_t slot) const
     {
@@ -111,6 +96,6 @@ public:
     bool isValidSlot(std::size_t slot) const { return slot < m_slots.size(); }
 
 private:
-    std::vector<SlotType<T>> m_slotTypes; // fix nach dem Konstruktor
+    std::vector<SlotType<T>> m_slotTypes;
     std::vector<ItemPtr> m_slots;
 };
