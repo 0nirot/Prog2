@@ -9,6 +9,7 @@
 #include "Items\ItemEquippable.h"
 #include "ItemContainer.h"
 #include "EquipmentContainer.h"
+#include "SortAlgorithms.h"
 
 // Nur Forward-Declaration: Character.h inkludiert Inventory.h,
 // ein #include "Character.h" hier wäre zirkulär.
@@ -112,7 +113,47 @@ public:
         m_selectedSlotIndex = static_cast<std::size_t>(std::clamp(next, 0, slotCount - 1));
     }
 
+
+    void sortBagByWeight()
+    {
+        auto items = takeBagItems();
+        sortByWeight(items);
+        putBagItems(items);
+    }
+
+    void sortBagByName()
+    {
+        auto items = takeBagItems();
+        sortByName(items);
+        putBagItems(items);
+    }
+
+    void sortBagByValue()
+    {
+        auto items = takeBagItems();
+        sortByValue(items);
+        putBagItems(items);
+    }
+
 private:
+    std::vector<std::shared_ptr<ItemBase>> takeBagItems()
+    {
+        std::vector<std::shared_ptr<ItemBase>> items;
+        for (std::size_t i = 0; i < m_bag.getSlotCount(); ++i)
+        {
+            if (auto item = m_bag.removeItem(i))
+                items.push_back(item);
+        }
+        return items;
+    }
+
+    // Legt die Items der Reihe nach ab Slot 0 zurück in die Tasche
+    void putBagItems(const std::vector<std::shared_ptr<ItemBase>>& items)
+    {
+        for (std::size_t i = 0; i < items.size(); ++i)
+            m_bag.setItem(i, std::static_pointer_cast<TItem>(items[i]));
+    }
+
     // Zentrale Stellen für alles, was beim (Ab-)Legen eines Items passiert.
     // So kann equip/unequip nie vergessen, Flag UND Bonus zu setzen.
     void onEquipped(const std::shared_ptr<TEquippable>& item)

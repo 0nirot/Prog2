@@ -72,6 +72,7 @@ set(SOURCES
     MapGenerator.cpp
     PlayerCharacter.cpp
     PlotArmor.cpp
+    SortAlgorithms.cpp
     Renderer.cpp
     Tile.cpp
     TileBlocked.cpp
@@ -90,6 +91,7 @@ set(HEADERS
     "Items/ItemArmor.h"
     "Items/ItemBase.h"
     ItemContainer.h
+    SortAlgorithms.h
     "Items/ItemEquippable.h"
     "Items/ItemSword.h"
     "Items/ItemTrinket.h"

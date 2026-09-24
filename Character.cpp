@@ -17,7 +17,6 @@ Character::Character()
 		makeSlotType<ItemArmor>("Armor"),
 		makeSlotType<ItemTrinket>("Trinket")
 	};
-	// this als nicht-besitzender Owner: das Inventar lebt nie länger als der Character
 	m_inventory = std::make_shared<Inventory<ItemBase, ItemEquippable>>(10, equipmentLayout, this);
 }
 

@@ -34,13 +34,17 @@ namespace
 		{
 			player.pickUpItem();
 		}
-		if (IsKeyPressed(KEY_ENTER))
+	}
+
+	// Füllt alle freien Taschenslots mit zufälligen Items aus der LootTable
+	void fillInventoryWithRandomItems(PlayerCharacter& player, std::shared_ptr<LootTable> lootTable)
+	{
+		while (player.getInventory()->addBagItem(lootTable->getRandomItem()) >= 0)
 		{
-			player.equipItem();
 		}
 	}
 
-	void handleInvetoryInput(PlayerCharacter& player)
+	void handleInvetoryInput(PlayerCharacter& player, std::shared_ptr<LootTable> lootTable)
 	{
 		if (IsKeyPressed(KEY_UP))
 		{
@@ -57,6 +61,22 @@ namespace
 		if (IsKeyPressed(KEY_Q))
 		{
 			player.dropItem();
+		}
+		if (IsKeyPressed(KEY_J))
+		{
+			player.getInventory()->sortBagByWeight();
+		}
+		if (IsKeyPressed(KEY_K))
+		{
+			player.getInventory()->sortBagByName();
+		}
+		if (IsKeyPressed(KEY_L))
+		{
+			player.getInventory()->sortBagByValue();
+		}
+		if (IsKeyPressed(KEY_R))
+		{
+			fillInventoryWithRandomItems(player, lootTable);
 		}
 	}
 }
@@ -85,7 +105,7 @@ int main()
 			handleMovementInput(player);
 		}
 
-		handleInvetoryInput(player);
+		handleInvetoryInput(player, lootTable);
 		renderer.render(*map, player);
 	}
 

@@ -11,9 +11,6 @@ public:
 	// Maximales Tragegewicht (1 Stärke = +2 Gewicht)
 	float getMaxCarryWeight() const;
 
-	// Aktuell getragenes Gewicht (Tasche + Ausrüstung)
-	float getCurrentCarryWeight() const;
-
 	// Prüft, ob zusätzliches Gewicht noch mitgeführt werden kann
 	bool isOverWeight() const;
 
