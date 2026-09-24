@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "TileTreasure.h"
 #include "TileTraversable.h"
+#include <cstdio>
 
 
 Character::Character()
@@ -26,43 +27,34 @@ Character::~Character()
 
 void Character::moveUp()
 {
-	if (isMovePossible(getX(), getY() - 1, *currentMap))
-	{
-		currentMap->getTile(getX(), getY())->setPlayerOnTile(false);
-		posy--;
-		currentMap->getTile(getX(), getY())->setPlayerOnTile(true);
-		
-	}
+	moveTo(getX(), getY() - 1);
 }
 
 void Character::moveDown()
 {
-	if (isMovePossible(getX(), getY() + 1, *currentMap))
-	{
-		currentMap->getTile(getX(), getY())->setPlayerOnTile(false);
-		posy++;
-		currentMap->getTile(getX(), getY())->setPlayerOnTile(true);
-	}
+	moveTo(getX(), getY() + 1);
 }
 
 void Character::moveLeft()
 {
-	if (isMovePossible(getX() - 1, getY(), *currentMap))
-	{
-		currentMap->getTile(getX(), getY())->setPlayerOnTile(false);
-		posx--;
-		currentMap->getTile(getX(), getY())->setPlayerOnTile(true);
-	}
+	moveTo(getX() - 1, getY());
 }
 
 void Character::moveRight()
 {
-	if (isMovePossible(getX() + 1, getY(), *currentMap))
-	{
-		currentMap->getTile(getX(), getY())->setPlayerOnTile(false);
-		posx++;
-		currentMap->getTile(getX(), getY())->setPlayerOnTile(true);
-	}
+	moveTo(getX() + 1, getY());
+}
+
+bool Character::moveTo(int newX, int newY)
+{
+	if (!isMovePossible(newX, newY, *currentMap))
+		return false;
+
+	currentMap->getTile(getX(), getY())->setPlayerOnTile(false);
+	posx = newX;
+	posy = newY;
+	currentMap->getTile(getX(), getY())->setPlayerOnTile(true);
+	return true;
 }
 
 int Character::getX() const
@@ -117,9 +109,7 @@ void Character::pickUpItem()
 					return;
 				}
 
-				std::shared_ptr<TileTraversable> newTile = std::make_shared<TileTraversable>();
-				currentMap->setTile(getX(), getY(), newTile);
-				newTile->setPlayerOnTile(true);
+				clearTreasureTile();
 				printf("Picked up: %s\n", loot->getName().c_str());
 			}
 		}
@@ -162,6 +152,13 @@ void Character::equipItem()
 	}
 }
 
+void Character::clearTreasureTile()
+{
+	std::shared_ptr<TileTraversable> newTile = std::make_shared<TileTraversable>();
+	currentMap->setTile(getX(), getY(), newTile);
+	newTile->setPlayerOnTile(true);
+}
+
 float Character::getStrength() const
 {
 	return strength;
@@ -170,4 +167,132 @@ float Character::getStrength() const
 void Character::setStrength(float newStrength)
 {
 	strength = newStrength;
+}
+
+float Character::getMaxCarryWeight() const
+{
+	return strength * 2.0f;
+}
+
+bool Character::isOverWeight() const
+{
+	return m_inventory->getTotalWeight() >= getMaxCarryWeight();
+}
+
+bool Character::canCarry(const ItemBase& item) const
+{
+	// Gleiche Grenze wie isOverWeight: danach muss man sich noch bewegen können
+	return m_inventory->getTotalWeight() + item.getWeight() < getMaxCarryWeight();
+}
+
+// ---------------------------------------------------------------------------
+// Automatisches Laufen
+// ---------------------------------------------------------------------------
+
+bool Character::autoWalk(float stepDelay)
+{
+	if (isOverWeight())
+	{
+		printf("Too heavy to walk\n");
+		return false;
+	}
+
+	PathFinder pathFinder;
+	autoWalkPath = pathFinder.findPathToExit(*currentMap, { posx, posy });
+	if (autoWalkPath.empty())
+	{
+		printf("No path to exit found\n");
+		return false;
+	}
+
+	autoWalkIndex = 1; // Index 0 ist die aktuelle Position
+	autoWalkStepDelay = stepDelay;
+	autoWalkTimer = 0.0f;
+	printf("Auto walk started: %d steps\n", static_cast<int>(autoWalkPath.size()) - 1);
+	return true;
+}
+
+void Character::updateAutoWalk(float deltaTime)
+{
+	if (!isAutoWalking())
+		return;
+
+	// Delay zwischen den Schritten, damit man die Figur laufen sieht
+	autoWalkTimer += deltaTime;
+	if (autoWalkTimer < autoWalkStepDelay)
+		return;
+	autoWalkTimer = 0.0f;
+
+	if (isOverWeight())
+	{
+		printf("Too heavy, auto walk stopped\n");
+		stopAutoWalk();
+		return;
+	}
+
+	const GridPosition next = autoWalkPath[autoWalkIndex];
+	if (!moveTo(next.x, next.y))
+	{
+		printf("Path blocked, auto walk stopped\n");
+		stopAutoWalk();
+		return;
+	}
+	++autoWalkIndex;
+
+	autoPickUpItem();
+
+	if (!isAutoWalking())
+	{
+		printf("Exit reached\n");
+		stopAutoWalk();
+	}
+}
+
+void Character::stopAutoWalk()
+{
+	autoWalkPath.clear();
+	autoWalkIndex = 0;
+	autoWalkTimer = 0.0f;
+}
+
+bool Character::isAutoWalking() const
+{
+	return autoWalkIndex > 0 && autoWalkIndex < autoWalkPath.size();
+}
+
+void Character::autoPickUpItem()
+{
+	auto treasureTile = std::dynamic_pointer_cast<TileTreasure>(currentMap->getTile(posx, posy));
+	if (!treasureTile)
+		return;
+
+	std::shared_ptr<ItemBase> loot = treasureTile->getLoot();
+	if (!loot)
+		return;
+
+	// Aufgabe 2b: genug Stärke, um das Item zu tragen?
+	if (!canCarry(*loot))
+	{
+		printf("Too heavy, left behind: %s\n", loot->getName().c_str());
+		return;
+	}
+
+	// Aufgabe 2a: freier Slot in der Tasche?
+	const int bagSlot = m_inventory->addBagItem(loot);
+	if (bagSlot < 0)
+	{
+		printf("Inventory full, left behind: %s\n", loot->getName().c_str());
+		return;
+	}
+
+	clearTreasureTile();
+	printf("Auto picked up: %s\n", loot->getName().c_str());
+
+	// Aufgabe 3: besserer Stärkebonus als im passenden Ausrüstungsslot? -> ausrüsten
+	auto equippable = std::dynamic_pointer_cast<ItemEquippable>(loot);
+	if (equippable && m_inventory->isBetterThanEquipped(equippable))
+	{
+		m_inventory->equip(static_cast<std::size_t>(bagSlot));
+		printf("Auto equipped: %s (+%.1f strength)\n", loot->getName().c_str(), equippable->getStrengthBonus());
+	}
 }

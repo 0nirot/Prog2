@@ -76,6 +76,23 @@ public:
         return true;
     }
 
+    // Prüft, ob das Item in seinem Ausrüstungsslot einen höheren Stärkebonus
+    // geben würde als das Item, das dort gerade ausgerüstet ist.
+    // Ist der Slot leer, zählt der aktuelle Bonus als 0.
+    bool isBetterThanEquipped(const std::shared_ptr<TEquippable>& item) const
+    {
+        if (!item)
+            return false;
+
+        const int equipSlot = m_equipment.findSlotFor(item);
+        if (equipSlot < 0)
+            return false; // es gibt keinen Slot für diesen Typ
+
+        auto current = m_equipment.getItem(equipSlot);
+        const float currentBonus = current ? current->getStrengthBonus() : 0.0f;
+        return item->getStrengthBonus() > currentBonus;
+    }
+
     // Rüstet das aktuell ausgewählte Taschen-Item aus
     bool equipSelectedItem() { return equip(m_selectedSlotIndex); }
 
@@ -116,6 +133,7 @@ public:
 
     void sortBagByWeight()
     {
+		printf("Sorting bag by weight...\n");
         auto items = takeBagItems();
         sortByWeight(items);
         putBagItems(items);
@@ -123,6 +141,7 @@ public:
 
     void sortBagByName()
     {
+        printf("Sorting bag by name...\n");
         auto items = takeBagItems();
         sortByName(items);
         putBagItems(items);
@@ -130,6 +149,7 @@ public:
 
     void sortBagByValue()
     {
+		printf("Sorting bag by value...\n");
         auto items = takeBagItems();
         sortByValue(items);
         putBagItems(items);

@@ -1,7 +1,7 @@
 #include "Tile.h"
 
 Tile::Tile()
-	: traversable(false), startTile(false), endTile(false), playerOnTile(false), isPath(false), waypoint(false), tileVisualization(DARKGRAY)
+	: traversable(false), startTile(false), endTile(false), playerOnTile(false), isPath(false), waypoint(false), bestPath(false), tileVisualization(DARKGRAY)
 {
 }
 
@@ -65,4 +65,14 @@ bool Tile::isWaypoint() const
 void Tile::setWaypoint(bool waypoint_)
 {
 	waypoint = waypoint_;
+}
+
+bool Tile::isBestPath() const
+{
+	return bestPath;
+}
+
+void Tile::setBestPath(bool bestPath_)
+{
+	bestPath = bestPath_;
 }

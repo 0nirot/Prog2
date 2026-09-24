@@ -6,9 +6,12 @@
 #include "MapGenerator.h"
 #include "PlayerCharacter.h"
 #include "Renderer.h"
+#include <cstdio>
 #include <memory>
+#include <vector>
 #include <raylib.h>
 #include "LootTable.h"
+#include "PathFinder.h"
 
 namespace
 {
@@ -34,6 +37,10 @@ namespace
 		{
 			player.pickUpItem();
 		}
+		if (IsKeyPressed(KEY_SPACE))
+		{
+			player.autoWalk();
+		}
 	}
 
 	// Füllt alle freien Taschenslots mit zufälligen Items aus der LootTable
@@ -41,6 +48,42 @@ namespace
 	{
 		while (player.getInventory()->addBagItem(lootTable->getRandomItem()) >= 0)
 		{
+		}
+	}
+
+	// Sucht mit A* den kürzesten Weg von der Spielerposition zum Exit und markiert ihn auf der Map
+	void showBestPath(Map& map, const PlayerCharacter& player)
+	{
+		// Alte Markierung entfernen
+		for (int y = 0; y < map.getHeight(); ++y)
+		{
+			for (int x = 0; x < map.getWidth(); ++x)
+			{
+				if (auto tile = map.getTile(x, y))
+					tile->setBestPath(false);
+			}
+		}
+
+		PathFinder pathFinder;
+		std::vector<GridPosition> path = pathFinder.findPathToExit(map, { player.getX(), player.getY() });
+		if (path.empty())
+		{
+			printf("No path from player to exit found\n");
+			return;
+		}
+
+		for (const GridPosition& position : path)
+		{
+			map.getTile(position.x, position.y)->setBestPath(true);
+		}
+		printf("Best path: %d steps\n", static_cast<int>(path.size()) - 1);
+	}
+
+	void handleMapInput(Map& map, const PlayerCharacter& player)
+	{
+		if (IsKeyPressed(KEY_T))
+		{
+			showBestPath(map, player);
 		}
 	}
 
@@ -100,12 +143,17 @@ int main()
 
 	while (!renderer.shouldClose()) // Gameloop
 	{
-		if (!player.isOverWeight())
+		// Während autoWalk läuft, keine manuelle Bewegung
+		if (!player.isOverWeight() && !player.isAutoWalking())
 		{
 			handleMovementInput(player);
 		}
 
+		// Macht beim automatischen Laufen alle paar Frames einen Schritt
+		player.updateAutoWalk(GetFrameTime());
+
 		handleInvetoryInput(player, lootTable);
+		handleMapInput(*map, player);
 		renderer.render(*map, player);
 	}
 

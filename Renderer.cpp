@@ -14,6 +14,7 @@ namespace
 	const Color BACKGROUND_COLOR = { 30, 30, 36, 255 };
 	const Color GRID_COLOR = { 0, 0, 0, 80 };
 	const Color PATH_OVERLAY_COLOR = { 0, 200, 80, 90 };
+	const Color BEST_PATH_COLOR = { 0, 90, 255, 150 }; // halbtransparentes Blau
 	const Color PLAYER_COLOR = { 41, 128, 255, 255 };
 	const Color PLAYER_OUTLINE_COLOR = { 10, 40, 100, 255 };
 	const Color STATUS_TEXT_COLOR = RAYWHITE;
@@ -135,6 +136,12 @@ void Renderer::drawMap(const Map& map) const
 				DrawRectangleRec(rect, PATH_OVERLAY_COLOR);
 			}
 			*/
+
+			// Kürzester Weg (Taste T): blaues Overlay, Start/Exit bleiben erkennbar
+			if (tile->isBestPath())
+			{
+				DrawRectangleRec(rect, BEST_PATH_COLOR);
+			}
 
 			if (tile->isPlayerOnTile())
 			{

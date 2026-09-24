@@ -70,6 +70,7 @@ set(SOURCES
     LootTable.cpp
     Map.cpp
     MapGenerator.cpp
+    PathFinder.cpp
     PlayerCharacter.cpp
     PlotArmor.cpp
     SortAlgorithms.cpp
@@ -99,6 +100,7 @@ set(HEADERS
     Map.h
     MapGenerator.h
     Movement.h
+    PathFinder.h
     PlayerCharacter.h
     Renderer.h
     Tile.h
