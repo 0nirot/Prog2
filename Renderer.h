@@ -52,11 +52,11 @@ private:
 	// Zeichnet Tasche (unter der Statusleiste) und Ausrüstung (rechts neben der Map)
 	void drawInventory(const Map& map, const PlayerCharacter& player) const;
 	// Tasche: eine Zeile pro Slot, Index 0 oben
-	void drawBag(int x, int y, const ItemContainer<ItemBase>& bag) const;
+	void drawBag(int x, int y, const ItemContainer<ItemBase>& bag, const Inventory<ItemBase, ItemEquippable>& inventory) const;
 	// Ausrüstung: eine Zeile pro Slot mit Slottyp und Itemname
 	void drawEquipment(int x, int y, const EquipmentContainer<ItemEquippable>& equipment) const;
 	// Eine Zeile der Tasche: Name, Beschreibung, Gewicht, Wert, Stärkebonus
-	void drawItemRow(int x, int y, std::size_t index, const std::shared_ptr<ItemBase>& item) const;
+	void drawItemRow(int x, int y, std::size_t index, const std::shared_ptr<ItemBase>& item, const Inventory<ItemBase, ItemEquippable>& inventory) const;
 
 	Rectangle tileRect(int x, int y) const;
 

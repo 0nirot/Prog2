@@ -1,4 +1,4 @@
-#include "Renderer.h"
+﻿#include "Renderer.h"
 #include "Map.h"
 #include "PlayerCharacter.h"
 #include "Inventory.h"
@@ -179,10 +179,10 @@ void Renderer::drawInventory(const Map& map, const PlayerCharacter& player) cons
 	// Tasche: unter der Statusleiste
 	const int bagX = padding;
 	const int bagY = padding + mapPixelHeight(map) + padding + statusBarHeight;
-	drawBag(bagX, bagY, inventory.getBag());
+	drawBag(bagX, bagY, inventory.getBag(), inventory);
 }
 
-void Renderer::drawBag(int x, int y, const ItemContainer<ItemBase>& bag) const
+void Renderer::drawBag(int x, int y, const ItemContainer<ItemBase>& bag, const Inventory<ItemBase, ItemEquippable>& inventory) const
 {
 	const std::size_t slotCount = bag.getSlotCount();
 	const int panelWidth = std::max(bagPanelMinWidth(), GetScreenWidth() - 2 * padding);
@@ -196,10 +196,10 @@ void Renderer::drawBag(int x, int y, const ItemContainer<ItemBase>& bag) const
 	const int headerTextY = y + (inventoryHeaderHeight - INVENTORY_FONT_SIZE) / 2;
 	DrawText("#", x + COL_INDEX, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
 	DrawText("Name", x + COL_NAME, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
-	DrawText("Beschreibung", x + COL_DESCRIPTION, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
-	DrawText("Gewicht", x + COL_WEIGHT, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
-	DrawText("Wert", x + COL_VALUE, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
-	DrawText("Staerke", x + COL_STRENGTH, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
+	DrawText("Description", x + COL_DESCRIPTION, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
+	DrawText("Weight", x + COL_WEIGHT, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
+	DrawText("Value", x + COL_VALUE, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
+	DrawText("Strength", x + COL_STRENGTH, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
 	DrawLine(x, y + inventoryHeaderHeight, x + panelWidth, y + inventoryHeaderHeight, PANEL_BORDER_COLOR);
 
 	// Zeilen in Array-Reihenfolge: Index 0 direkt unter der Kopfzeile
@@ -212,23 +212,38 @@ void Renderer::drawBag(int x, int y, const ItemContainer<ItemBase>& bag) const
 			DrawRectangle(x, rowY, panelWidth, inventoryRowHeight, ROW_ALT_COLOR);
 		}
 
-		drawItemRow(x, rowY, i, bag.getItem(i));
+		drawItemRow(x, rowY, i, bag.getItem(i), inventory);
 	}
+
 }
 
-void Renderer::drawItemRow(int x, int y, std::size_t index, const std::shared_ptr<ItemBase>& item) const
+void Renderer::drawItemRow(int x, int y, std::size_t index, const std::shared_ptr<ItemBase>& item, const Inventory<ItemBase, ItemEquippable>& inventory) const
 {
 	const int textY = y + (inventoryRowHeight - INVENTORY_FONT_SIZE) / 2;
 
-	DrawText(TextFormat("%d", static_cast<int>(index)), x + COL_INDEX, textY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
+	DrawText(TextFormat("%d", static_cast<int>(index) +1), x + COL_INDEX, textY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
 
 	if (!item)
 	{
-		DrawText("- leer -", x + COL_NAME, textY, INVENTORY_FONT_SIZE, EMPTY_SLOT_TEXT_COLOR);
+		if (index == inventory.getSelectedSlotIndex())
+		{
+			DrawText("> - empty -", x + COL_NAME, textY, INVENTORY_FONT_SIZE, EMPTY_SLOT_TEXT_COLOR);
+		}
+		else
+		{
+			DrawText("- empty -", x + COL_NAME, textY, INVENTORY_FONT_SIZE, EMPTY_SLOT_TEXT_COLOR);
+		}
 		return;
 	}
 
-	DrawText(item->getName().c_str(), x + COL_NAME, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
+	if (index == inventory.getSelectedSlotIndex())
+	{
+		DrawText(TextFormat("> %s", item->getName().c_str()), x + COL_NAME, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
+	}
+	else
+	{
+		DrawText(item->getName().c_str(), x + COL_NAME, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
+	}
 	DrawText(item->getDescription().c_str(), x + COL_DESCRIPTION, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
 	DrawText(TextFormat("%.1f", item->getWeight()), x + COL_WEIGHT, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
 	DrawText(TextFormat("%d", item->getValue()), x + COL_VALUE, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
@@ -236,7 +251,7 @@ void Renderer::drawItemRow(int x, int y, std::size_t index, const std::shared_pt
 	// Stärkebonus gibt es nur bei ausrüstbaren Items
 	if (auto equippable = std::dynamic_pointer_cast<ItemEquippable>(item))
 	{
-		DrawText(TextFormat("%+d", equippable->getArmorBonus()), x + COL_STRENGTH, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
+		DrawText(TextFormat("%+.1f", equippable->getStrengthBonus()), x + COL_STRENGTH, textY, INVENTORY_FONT_SIZE, ITEM_TEXT_COLOR);
 	}
 	else
 	{
@@ -255,7 +270,7 @@ void Renderer::drawEquipment(int x, int y, const EquipmentContainer<ItemEquippab
 
 	// Kopfzeile
 	const int headerTextY = y + (inventoryHeaderHeight - INVENTORY_FONT_SIZE) / 2;
-	DrawText("Ausruestung", x + COL_INDEX, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
+	DrawText("Equipment", x + COL_INDEX, headerTextY, INVENTORY_FONT_SIZE, HEADER_TEXT_COLOR);
 	DrawLine(x, y + inventoryHeaderHeight, x + equipmentPanelWidth, y + inventoryHeaderHeight, PANEL_BORDER_COLOR);
 
 	// Slots in Array-Reihenfolge: "Slottyp: Itemname"
@@ -279,7 +294,7 @@ void Renderer::drawEquipment(int x, int y, const EquipmentContainer<ItemEquippab
 		}
 		else
 		{
-			DrawText("- leer -", itemX, textY, INVENTORY_FONT_SIZE, EMPTY_SLOT_TEXT_COLOR);
+			DrawText("- empty -", itemX, textY, INVENTORY_FONT_SIZE, EMPTY_SLOT_TEXT_COLOR);
 		}
 	}
 }

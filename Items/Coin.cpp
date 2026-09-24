@@ -3,7 +3,7 @@
 Coin::Coin()
 {
 	name = "Coin";
-	description = "A golden coin with ancient engravings";
+	description = "Money, Money, Money";
 	weight = 0.1f;
 	value = 25;
 }

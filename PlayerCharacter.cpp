@@ -3,21 +3,11 @@
 
 PlayerCharacter::PlayerCharacter()
 {
-	strength = 5;
+	strength = 10;
 }
 
 PlayerCharacter::~PlayerCharacter()
 {
-}
-
-int PlayerCharacter::getStrength() const
-{
-	return strength;
-}
-
-void PlayerCharacter::setStrength(int s)
-{
-	strength = s;
 }
 
 float PlayerCharacter::getMaxCarryWeight() const

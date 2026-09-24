@@ -55,5 +55,5 @@ std::unique_ptr<ItemBase> LootTable::getRandomItem() const
 
 	int randIndex = utils::trueRand(0, static_cast<int>(items.size()) - 1);
 
-	return std::make_unique<ItemBase>(*items[randIndex]);
+	return items[randIndex]->clone();
 }

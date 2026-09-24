@@ -12,27 +12,51 @@
 
 namespace
 {
-	void handleInput(PlayerCharacter& player)
+	void handleMovementInput(PlayerCharacter& player)
 	{
-		if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
+		if (IsKeyPressed(KEY_W))
 		{
 			player.moveUp();
 		}
-		if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S))
+		if (IsKeyPressed(KEY_S))
 		{
 			player.moveDown();
 		}
-		if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A))
+		if (IsKeyPressed(KEY_A))
 		{
 			player.moveLeft();
 		}
-		if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))
+		if (IsKeyPressed(KEY_D))
 		{
 			player.moveRight();
 		}
 		if (IsKeyPressed(KEY_E))
 		{
 			player.pickUpItem();
+		}
+		if (IsKeyPressed(KEY_ENTER))
+		{
+			player.equipItem();
+		}
+	}
+
+	void handleInvetoryInput(PlayerCharacter& player)
+	{
+		if (IsKeyPressed(KEY_UP))
+		{
+			player.changeInventorySlot(-1);
+		}
+		if (IsKeyPressed(KEY_DOWN))
+		{
+			player.changeInventorySlot(1);
+		}
+		if (IsKeyPressed(KEY_ENTER))
+		{
+			player.equipItem();
+		}
+		if (IsKeyPressed(KEY_Q))
+		{
+			player.dropItem();
 		}
 	}
 }
@@ -58,8 +82,10 @@ int main()
 	{
 		if (!player.isOverWeight())
 		{
-			handleInput(player);
+			handleMovementInput(player);
 		}
+
+		handleInvetoryInput(player);
 		renderer.render(*map, player);
 	}
 

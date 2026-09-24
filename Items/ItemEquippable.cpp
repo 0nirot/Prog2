@@ -3,7 +3,7 @@
 ItemEquippable::ItemEquippable()
 {
 	equipped = false;
-	strengthBonus = 0;
+	strengthBonus = 0.0f;
 }
 
 ItemEquippable::~ItemEquippable()
@@ -20,12 +20,12 @@ void ItemEquippable::setEquipped(bool newEquipped)
 	equipped = newEquipped;
 }
 
-int ItemEquippable::getArmorBonus() const
+float ItemEquippable::getStrengthBonus() const
 {
 	return strengthBonus;
 }
 
-void ItemEquippable::setArmorBonus(int newArmorBonus)
+void ItemEquippable::setStrengthBonus(float newStrengthBonus)
 {
-	strengthBonus = newArmorBonus;
+	strengthBonus = newStrengthBonus;
 }

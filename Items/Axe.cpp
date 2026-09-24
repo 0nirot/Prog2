@@ -7,6 +7,7 @@ Axe::Axe()
 	weight = 3.5f;
 	value = 200;
 	damage = 25;
+	strengthBonus = 5;
 }
 
 Axe::~Axe()

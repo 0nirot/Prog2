@@ -7,6 +7,7 @@ Sword::Sword()
 	weight = 2.5f;
 	value = 150;
 	damage = 18;
+	strengthBonus = 2;
 }
 
 Sword::~Sword()

@@ -51,14 +51,31 @@ public:
         return isValidSlot(slot) && item && m_slotTypes[slot].accepts(item.get());
     }
 
+    // Sucht anhand des Item-Typs den passenden Slot.
+    // Bevorzugt einen freien passenden Slot; sind alle passenden belegt,
+    // wird der erste passende zurückgegeben (dort wird dann getauscht).
+    // Gibt -1 zurück, wenn kein Slot diesen Typ akzeptiert.
+    int findSlotFor(const ItemPtr& item) const
+    {
+        int firstMatch = -1;
+        for (std::size_t i = 0; i < m_slots.size(); ++i)
+        {
+            if (!accepts(i, item))
+                continue;
+            if (!m_slots[i])
+                return static_cast<int>(i);
+            if (firstMatch < 0)
+                firstMatch = static_cast<int>(i);
+        }
+        return firstMatch;
+    }
+
     // Setzt ein Item in einen bestimmten Slot.
     // Gibt false zurück, wenn der Slot ungültig ist oder der Typ nicht passt.
     // nullptr leert den Slot.
     bool setItem(std::size_t slot, ItemPtr item)
     {
-        if (!isValidSlot(slot))
-            return false;
-        if (item && !m_slotTypes[slot].accepts(item.get()))
+        if (!isValidSlot(slot) || (item && !accepts(slot, item)))
             return false;
 
         m_slots[slot] = std::move(item);
@@ -75,24 +92,6 @@ public:
     std::shared_ptr<TAs> getItemAs(std::size_t slot) const
     {
         return std::dynamic_pointer_cast<TAs>(getItem(slot));
-    }
-
-    // Legt das Item in den ersten freien, passenden Slot.
-    // Gibt den Slotindex zurück, oder -1 wenn keiner frei/passend ist.
-    int addItem(ItemPtr item)
-    {
-        if (!item)
-            return -1;
-
-        for (std::size_t i = 0; i < m_slots.size(); ++i)
-        {
-            if (!m_slots[i] && m_slotTypes[i].accepts(item.get()))
-            {
-                m_slots[i] = std::move(item);
-                return static_cast<int>(i);
-            }
-        }
-        return -1;
     }
 
     ItemPtr removeItem(std::size_t slot)

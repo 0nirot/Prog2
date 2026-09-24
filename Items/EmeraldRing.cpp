@@ -3,10 +3,11 @@
 EmeraldRing::EmeraldRing()
 {
 	name = "Emerald Ring";
-	description = "A beautiful ring adorned with a radiant emerald stone";
+	description = "The One Ring";
 	weight = 0.5f;
 	value = 120;
 	magicBonus = 8;
+	strengthBonus = 1;
 }
 
 EmeraldRing::~EmeraldRing()

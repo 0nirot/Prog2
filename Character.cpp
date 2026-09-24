@@ -10,14 +10,15 @@
 
 
 Character::Character()
+	: strength(0.0f)
 {
 	std::vector<SlotType<ItemEquippable>> equipmentLayout = {
-		makeSlotType<ItemWeapon>("Weapo"),
+		makeSlotType<ItemWeapon>("Weapon"),
 		makeSlotType<ItemArmor>("Armor"),
 		makeSlotType<ItemTrinket>("Trinket")
 	};
-	inventory = std::make_shared<Inventory<ItemBase, ItemEquippable>>(10, equipmentLayout);
-
+	// this als nicht-besitzender Owner: das Inventar lebt nie länger als der Character
+	m_inventory = std::make_shared<Inventory<ItemBase, ItemEquippable>>(10, equipmentLayout, this);
 }
 
 Character::~Character()
@@ -91,43 +92,9 @@ void Character::setName(const std::string& name)
 	this->name = name;
 }
 
-int Character::getHealth() const
-{
-	return health;
-}
-
-void Character::setHealth(int health)
-{
-	this->health = health;
-}
-
-int Character::getMaxHealth() const
-{
-	return maxHealth;
-}
-
-void Character::setMaxHealth(int maxHealth)
-{
-	this->maxHealth = maxHealth;
-}
-
-void Character::takeDamage(int damage)
-{
-	health -= damage;
-	if (health < 0)
-		health = 0;
-}
-
-void Character::heal(int amount)
-{
-	health += amount;
-	if (health > maxHealth)
-		health = maxHealth;
-}
-
 std::shared_ptr<Inventory<ItemBase, ItemEquippable>> Character::getInventory() const
 {
-	return inventory;
+	return m_inventory;
 }
 
 void Character::setCurrentMap(std::shared_ptr<Map> map)
@@ -144,7 +111,7 @@ void Character::pickUpItem()
 			std::shared_ptr<ItemBase> loot = treasureTile->getLoot();
 			if (loot)
 			{
-				int slot = inventory->addBagItem(loot);
+				int slot = m_inventory->addBagItem(loot);
 				if (slot < 0)
 				{
 					printf("Inventory full, cannot pick up: %s\n", loot->getName().c_str());
@@ -157,4 +124,51 @@ void Character::pickUpItem()
 				printf("Picked up: %s\n", loot->getName().c_str());
 			}
 		}
+}
+
+void Character::dropItem()
+{
+	auto selectedItem = m_inventory->getBagItem(m_inventory->getSelectedSlotIndex());
+	if (!selectedItem)
+	{
+		printf("No item selected to drop\n");
+		return;
+	}
+	auto tile = currentMap->getTile(getX(), getY());
+	if (tile && std::dynamic_pointer_cast<TileTraversable>(tile))
+	{
+		std::shared_ptr<TileTreasure> treasureTile = std::make_shared<TileTreasure>();
+		treasureTile->setLoot(selectedItem);
+		currentMap->setTile(getX(), getY(), treasureTile);
+		treasureTile->setPlayerOnTile(true);
+		m_inventory->removeBagItem(m_inventory->getSelectedSlotIndex());
+		printf("Dropped: %s\n", selectedItem->getName().c_str());
+	}
+	else
+	{
+		printf("Cannot drop item here, tile is not traversable\n");
+	}
+}
+
+void Character::changeInventorySlot(int offset)
+{
+	m_inventory->selectNextSlot(offset);
+}
+
+void Character::equipItem()
+{
+	if (!m_inventory->equipSelectedItem())
+	{
+		printf("Selected item cannot be equipped\n");
+	}
+}
+
+float Character::getStrength() const
+{
+	return strength;
+}
+
+void Character::setStrength(float newStrength)
+{
+	strength = newStrength;
 }

@@ -7,13 +7,15 @@ public:
 	ItemEquippable();
 	~ItemEquippable();
 
+	std::unique_ptr<ItemBase> clone() const override { return std::make_unique<ItemEquippable>(*this); }
+
 	bool isEquipped() const;
 	void setEquipped(bool equipped);
 
-	int getArmorBonus() const;
-	void setArmorBonus(int armorBonus);
+	float getStrengthBonus() const;
+	void setStrengthBonus(float strengthBonus);
 
-private:
+protected:
 	bool equipped;
-	int strengthBonus;
+	float strengthBonus;
 };

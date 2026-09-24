@@ -3,7 +3,7 @@
 Torch::Torch()
 {
 	name = "Torch";
-	description = "A wooden torch with a burning flame that illuminates the darkness";
+	description = "Here comes the sun";
 	weight = 2.0f;
 	value = 15;
 }

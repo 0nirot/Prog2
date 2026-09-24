@@ -176,6 +176,7 @@ void MapGenerator::placeTreasures(std::shared_ptr<Map> map)
 					// Ersetze TileTraversable mit TileTreasure
 					map->setTile(x, y, treasureTile);
 					treasureTile->setLoot(lootTable->getRandomItem());
+					
 					// Entferne das Tile aus dem Vector um Duplikate zu vermeiden
 					pathTiles.erase(pathTiles.begin() + randomIndex);
 					goto next_treasure;

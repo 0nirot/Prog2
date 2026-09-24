@@ -3,10 +3,11 @@
 PlotArmor::PlotArmor()
 {
 	name = "Plot Armor";
-	description = "A legendary armor that protects the protagonist through the power of narrative";
+	description = "...";
 	weight = 5.0f;
 	value = 300;
 	defense = 35;
+	strengthBonus = 99;
 }
 
 PlotArmor::~PlotArmor()

@@ -3,7 +3,7 @@
 Stick::Stick()
 {
 	name = "Stick";
-	description = "A simple wooden stick found in the forest";
+	description = "A stick, nothing special";
 	weight = 0.5f;
 	value = 5;
 }

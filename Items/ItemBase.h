@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <memory>
 #include <string>
 
 class ItemBase
@@ -6,6 +7,11 @@ class ItemBase
 public:
 	ItemBase();
 	virtual ~ItemBase();
+
+	// Polymorphe Kopie: erzeugt eine Kopie mit dem echten (dynamischen) Typ,
+	// damit beim Kopieren über einen ItemBase-Zeiger kein Object Slicing passiert.
+	// Jede Kindklasse muss diese Methode überschreiben.
+	virtual std::unique_ptr<ItemBase> clone() const { return std::make_unique<ItemBase>(*this); }
 
 	// Getter
 	const std::string& getName() const;

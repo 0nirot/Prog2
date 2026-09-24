@@ -27,28 +27,24 @@ public:
 
 	void setCurrentMap(std::shared_ptr<Map> map);
 
-	int getHealth() const;
-	void setHealth(int health);
 
-	int getMaxHealth() const;
-	void setMaxHealth(int maxHealth);
-
-	// Schaden nehmen
-	void takeDamage(int damage);
-
-	// Heilen
-	void heal(int amount);
+	float getStrength() const;
+	void setStrength(float strength);
 
 	// Inventar
 	std::shared_ptr<Inventory<ItemBase, ItemEquippable>> getInventory() const;
 	void pickUpItem();
+	void changeInventorySlot(int offset);
+	void equipItem();
+	void dropItem();
+
 
 private:
 	std::string name;
 	int posx;
 	int posy;
-	int health;
-	int maxHealth;
 	std::shared_ptr<Map> currentMap;
-	std::shared_ptr<Inventory<ItemBase, ItemEquippable>> inventory;
+	std::shared_ptr<Inventory<ItemBase, ItemEquippable>> m_inventory;
+protected:
+	float strength;
 };
